@@ -1,39 +1,59 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import Layout from '../components/Layout'
 import PhotoCard from '../components/PhotoCard'
 import PhotoModal from '../components/PhotoModal'
 import GalleryFilters from '../components/GalleryFilters'
-import { photos } from '../data/photos'
+import usePhotos from '../hooks/usePhotos'
+import usePhotoFilters from '../hooks/usePhotoFilters'
 
 function Dashboard() {
-  const [statusFilter, setStatusFilter] = useState('all')
-  const [dateFilter, setDateFilter] = useState('all')
+  const { photos, loading, error } = usePhotos()
+  const {
+    statusFilter,
+    setStatusFilter,
+    dateFilter,
+    setDateFilter,
+    availableDates,
+    filteredPhotos,
+  } = usePhotoFilters(photos)
   const [selectedPhoto, setSelectedPhoto] = useState(null)
 
-  const availableDates = useMemo(() => {
-    const uniqueDates = [...new Set(photos.map((photo) => photo.capturedAt))]
-    return uniqueDates.sort((a, b) => new Date(b) - new Date(a))
-  }, [])
+  function renderContent() {
+    if (loading) {
+      return <p className="py-10 text-center text-zinc-500 dark:text-zinc-400">Carregando fotos...</p>
+    }
 
-  const filteredPhotos = photos.filter((photo) => {
-    const matchesStatus =
-      statusFilter === 'all' ||
-      (statusFilter === 'edited' && photo.isEdited) ||
-      (statusFilter === 'raw' && !photo.isEdited)
+    if (error) {
+      return <p className="py-10 text-center text-red-600 dark:text-red-400">{error}</p>
+    }
 
-    const matchesDate = dateFilter === 'all' || photo.capturedAt === dateFilter
+    if (filteredPhotos.length === 0) {
+      return (
+        <p className="py-10 text-center text-zinc-500 dark:text-zinc-400">
+          Nenhuma foto encontrada com esses filtros.
+        </p>
+      )
+    }
 
-    return matchesStatus && matchesDate
-  })
+    return (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
+        {filteredPhotos.map((photo) => (
+          <PhotoCard key={photo.id} photo={photo} onSelect={() => setSelectedPhoto(photo)} />
+        ))}
+      </div>
+    )
+  }
 
   return (
     <Layout>
-      <div className="dashboard-page">
-        <div className="dashboard-header">
-          <h1>Minhas Fotos</h1>
-          <p>
-            {filteredPhotos.length} de {photos.length} fotos
-          </p>
+      <div className="mx-auto w-full max-w-5xl flex-1 p-4 sm:p-6">
+        <div className="mb-5 flex flex-wrap items-baseline justify-between gap-2">
+          <h1 className="text-2xl font-bold sm:text-3xl">Minhas Fotos</h1>
+          {!loading && !error && (
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              {filteredPhotos.length} de {photos.length} fotos
+            </p>
+          )}
         </div>
 
         <GalleryFilters
@@ -44,19 +64,7 @@ function Dashboard() {
           availableDates={availableDates}
         />
 
-        {filteredPhotos.length === 0 ? (
-          <p className="empty-state">Nenhuma foto encontrada com esses filtros.</p>
-        ) : (
-          <div className="photo-grid">
-            {filteredPhotos.map((photo) => (
-              <PhotoCard
-                key={photo.id}
-                photo={photo}
-                onSelect={() => setSelectedPhoto(photo)}
-              />
-            ))}
-          </div>
-        )}
+        {renderContent()}
       </div>
 
       {selectedPhoto && (
