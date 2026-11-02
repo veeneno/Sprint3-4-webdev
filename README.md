@@ -108,8 +108,14 @@ Após o login, o estado de "logado" fica salvo no `localStorage`, então ao reca
 
 ## Onde e como a IA foi utilizada no projeto
 
+### sprint 3
+
 IA foi utilizada em algumas partes específicas como a proteção de rotas (não poder acessar o dashboard sem logar), algumas partes do CSS como alterar do modo claro para o escuro e salvar isso no LocalStorage.
 E foi utilizada para auxílio da mudança da página de HTML CSS e JS puros para React + Vite
+### sprint 4
+
+IA foi utilizada para auxilio na implementação do mockAPI, adiçao do arquivo vercel.json
+e também ajudou a corrigir a parte de pesquisa por nome da foto
 
 ## Link do deploy na vercel
 
