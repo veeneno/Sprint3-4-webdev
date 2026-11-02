@@ -79,6 +79,11 @@ function Login() {
           >
             Entrar
           </button>
+
+          <div className="mt-4 rounded-md border border-dashed border-zinc-300 bg-zinc-50 px-3 py-2 text-center text-xs text-zinc-500 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
+            Login de teste: <strong className="text-zinc-700 dark:text-zinc-200">admin</strong> / senha{' '}
+            <strong className="text-zinc-700 dark:text-zinc-200">1234</strong>
+          </div>
         </form>
       </div>
     </Layout>
