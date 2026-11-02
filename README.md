@@ -31,7 +31,7 @@ Pré-requisitos: [Node.js](https://nodejs.org/) 18 ou superior e npm (já vem ju
 
 ```bash
 git clone https://github.com/veeneno/Sprint3-4-webdev.git
-cd Sprint3-webdev
+cd Sprint3-4-webdev
 npm install
 ```
 
