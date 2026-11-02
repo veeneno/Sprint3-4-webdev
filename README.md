@@ -30,7 +30,7 @@ Protótipo web do projeto Equipe Rocket: um app de câmera fotográfica que capt
 Pré-requisitos: [Node.js](https://nodejs.org/) 18 ou superior e npm (já vem junto com o Node).
 
 ```bash
-git clone https://github.com/veeneno/Sprint3-webdev.git
+git clone https://github.com/veeneno/Sprint3-4-webdev.git
 cd Sprint3-webdev
 npm install
 ```
