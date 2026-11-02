@@ -4,6 +4,8 @@ import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import PhotoDetail from './pages/PhotoDetail'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
@@ -21,6 +23,15 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/fotos/:id"
+              element={
+                <ProtectedRoute>
+                  <PhotoDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

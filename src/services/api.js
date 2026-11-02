@@ -20,3 +20,14 @@ export function getPhotos() {
 export function getPhoto(id) {
   return request(`/photos/${id}`)
 }
+
+export function updatePhoto(id, data) {
+  return request(`/photos/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  })
+}
+
+export function deletePhoto(id) {
+  return request(`/photos/${id}`, { method: 'DELETE' })
+}

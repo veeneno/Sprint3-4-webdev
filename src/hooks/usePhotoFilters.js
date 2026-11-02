@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 function usePhotoFilters(photos) {
   const [statusFilter, setStatusFilter] = useState('all')
   const [dateFilter, setDateFilter] = useState('all')
+  const [search, setSearch] = useState('')
 
   const availableDates = useMemo(() => {
     const uniqueDates = [...new Set(photos.map((photo) => photo.capturedAt))]
@@ -18,15 +19,19 @@ function usePhotoFilters(photos) {
 
       const matchesDate = dateFilter === 'all' || photo.capturedAt === dateFilter
 
-      return matchesStatus && matchesDate
+      const matchesSearch = photo.title.toLowerCase().includes(search.trim().toLowerCase())
+
+      return matchesStatus && matchesDate && matchesSearch
     })
-  }, [photos, statusFilter, dateFilter])
+  }, [photos, statusFilter, dateFilter, search])
 
   return {
     statusFilter,
     setStatusFilter,
     dateFilter,
     setDateFilter,
+    search,
+    setSearch,
     availableDates,
     filteredPhotos,
   }

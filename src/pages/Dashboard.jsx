@@ -1,7 +1,5 @@
-import { useState } from 'react'
 import Layout from '../components/Layout'
 import PhotoCard from '../components/PhotoCard'
-import PhotoModal from '../components/PhotoModal'
 import GalleryFilters from '../components/GalleryFilters'
 import usePhotos from '../hooks/usePhotos'
 import usePhotoFilters from '../hooks/usePhotoFilters'
@@ -9,6 +7,8 @@ import usePhotoFilters from '../hooks/usePhotoFilters'
 function Dashboard() {
   const { photos, loading, error } = usePhotos()
   const {
+    search,
+    setSearch,
     statusFilter,
     setStatusFilter,
     dateFilter,
@@ -16,7 +16,6 @@ function Dashboard() {
     availableDates,
     filteredPhotos,
   } = usePhotoFilters(photos)
-  const [selectedPhoto, setSelectedPhoto] = useState(null)
 
   function renderContent() {
     if (loading) {
@@ -38,7 +37,7 @@ function Dashboard() {
     return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
         {filteredPhotos.map((photo) => (
-          <PhotoCard key={photo.id} photo={photo} onSelect={() => setSelectedPhoto(photo)} />
+          <PhotoCard key={photo.id} photo={photo} />
         ))}
       </div>
     )
@@ -57,6 +56,8 @@ function Dashboard() {
         </div>
 
         <GalleryFilters
+          search={search}
+          onSearchChange={setSearch}
           statusFilter={statusFilter}
           onStatusChange={setStatusFilter}
           dateFilter={dateFilter}
@@ -66,10 +67,6 @@ function Dashboard() {
 
         {renderContent()}
       </div>
-
-      {selectedPhoto && (
-        <PhotoModal photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
-      )}
     </Layout>
   )
 }

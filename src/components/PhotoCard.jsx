@@ -1,11 +1,12 @@
+import { Link } from 'react-router-dom'
+import StatusBadge from './StatusBadge'
 import { formatDate } from '../utils/date'
 
-function PhotoCard({ photo, onSelect }) {
+function PhotoCard({ photo }) {
   return (
-    <button
-      type="button"
-      className="flex cursor-pointer flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white text-left transition hover:border-indigo-600 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-indigo-400"
-      onClick={onSelect}
+    <Link
+      to={`/fotos/${photo.id}`}
+      className="flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition hover:border-indigo-600 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-indigo-400"
     >
       <img
         src={photo.imageUrl}
@@ -15,18 +16,10 @@ function PhotoCard({ photo, onSelect }) {
       />
       <div className="flex flex-col gap-1 px-4 py-3">
         <p className="font-semibold">{photo.title}</p>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">{formatDate(photo.capturedAt)}</p>
-        <span
-          className={`mt-1 self-start rounded-full px-2 py-0.5 text-xs font-semibold ${
-            photo.isEdited
-              ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300'
-              : 'bg-zinc-200 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300'
-          }`}
-        >
-          {photo.isEdited ? 'Editada com IA' : 'RAW'}
-        </span>
+        <p className="mb-1 text-xs text-zinc-500 dark:text-zinc-400">{formatDate(photo.capturedAt)}</p>
+        <StatusBadge isEdited={photo.isEdited} />
       </div>
-    </button>
+    </Link>
   )
 }
 
